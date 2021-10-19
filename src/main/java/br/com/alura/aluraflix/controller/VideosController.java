@@ -1,6 +1,7 @@
 package br.com.alura.aluraflix.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -25,9 +26,11 @@ public class VideosController {
 	@Autowired
 	private VideoRepository videoRepository;
 
+	
 	@GetMapping
-	public String showVideos() {
-		return "Videos";
+	public List<VideoDTO> showVideos() {
+		List<Video> videos = videoRepository.findAll();
+		return VideoDTO.toVideosDTO(videos);
 	}
 	
 	@PostMapping

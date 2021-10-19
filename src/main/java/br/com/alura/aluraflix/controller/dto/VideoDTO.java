@@ -1,5 +1,8 @@
 package br.com.alura.aluraflix.controller.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.alura.aluraflix.modelo.Video;
 
 public class VideoDTO {
@@ -47,4 +50,9 @@ public class VideoDTO {
 		this.url = url;
 	}
 
+	public static List<VideoDTO> toVideosDTO(List<Video> videos) {
+		List<VideoDTO> videosDTO = new ArrayList<VideoDTO>();
+		videos.forEach(v -> videosDTO.add(new VideoDTO(v)));
+		return videosDTO;
+	}
 }
