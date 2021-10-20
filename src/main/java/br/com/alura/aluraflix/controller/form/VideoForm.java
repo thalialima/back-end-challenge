@@ -1,12 +1,27 @@
 package br.com.alura.aluraflix.controller.form;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.URL;
+
 import br.com.alura.aluraflix.modelo.Video;
 import br.com.alura.aluraflix.repository.VideoRepository;
 
 public class VideoForm {
 
+	@NotNull @NotBlank @NotEmpty
+	@Length(max = 50)
 	private String name;
+	
+	@NotNull @NotBlank @NotEmpty
+	@Length(max = 120)
 	private String description;
+	
+	@NotNull @NotBlank @NotEmpty
+	@Length(min = 10) @URL
 	private String url;
 
 	public String getName() {
