@@ -48,8 +48,17 @@ public class VideoForm {
 		this.url = url;
 	}
 
-	public Video toVideo(VideoRepository videoRepository) {
+	public Video toVideo() {
 		return new Video(this.name, this.description, this.url);
+	}
+	
+	@SuppressWarnings("deprecation")
+	public Video update(Long id, VideoRepository videoRepository) {
+		Video video = videoRepository.getOne(id);
+		video.setName(this.name);
+		video.setDescription(this.description);
+		video.setUrl(this.url);
+		return video;
 	}
 
 }
