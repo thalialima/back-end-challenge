@@ -3,19 +3,22 @@ package br.com.alura.aluraflix.controller.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.alura.aluraflix.modelo.Video;
+import br.com.alura.aluraflix.model.Category;
+import br.com.alura.aluraflix.model.Video;
 
 public class VideoDTO {
 	private Long id;
 	private String name;
 	private String description;
 	private String url;
+	private String categoryTitle;
 
 	public VideoDTO(Video video) {
 		this.id = video.getId();
 		this.name = video.getName();
 		this.description = video.getDescription();
 		this.url = video.getUrl();
+		this.categoryTitle = video.getCategoryTitle();
 	}
 
 	public Long getId() {
@@ -30,6 +33,9 @@ public class VideoDTO {
 		return name;
 	}
 
+	public String getCategoryTitle() {
+		return categoryTitle;
+	}
 
 	public String getDescription() {
 		return description;

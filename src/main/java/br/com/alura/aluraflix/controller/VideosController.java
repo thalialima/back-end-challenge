@@ -23,7 +23,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.com.alura.aluraflix.config.validation.FormErrorDTO;
 import br.com.alura.aluraflix.controller.dto.VideoDTO;
 import br.com.alura.aluraflix.controller.form.VideoForm;
-import br.com.alura.aluraflix.modelo.Video;
+import br.com.alura.aluraflix.model.Video;
+import br.com.alura.aluraflix.repository.CategoryRepository;
 import br.com.alura.aluraflix.repository.VideoRepository;
 
 @RestController
@@ -32,6 +33,9 @@ public class VideosController {
 
 	@Autowired
 	private VideoRepository videoRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 	@GetMapping
 	public List<VideoDTO> showVideos() {
@@ -41,20 +45,19 @@ public class VideosController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<VideoDTO> details(@PathVariable Long id) {
-		Optional<Video> video = videoRepository.findById(id);
+		Optional<Video> optional = videoRepository.findById(id);
 
 		// fail fast
-		if (!video.isPresent())
+		if (!optional.isPresent())
 			return ResponseEntity.notFound().build();
 
-		return ResponseEntity.ok(new VideoDTO(video.get()));
+		return ResponseEntity.ok(new VideoDTO(optional.get()));
 	}
 
 	@PostMapping
 	@Transactional
 	public ResponseEntity<VideoDTO> register(@RequestBody @Valid VideoForm form, UriComponentsBuilder urBuilder) {
-
-		Video video = form.toVideo();
+		Video video = form.toVideo(categoryRepository);
 		videoRepository.save(video);
 
 		URI uri = urBuilder.path("/videos/{id}").buildAndExpand(video.getId()).toUri();
@@ -88,5 +91,7 @@ public class VideosController {
 
 		return ResponseEntity.notFound().build();
 	}
+	
+	
 
 }

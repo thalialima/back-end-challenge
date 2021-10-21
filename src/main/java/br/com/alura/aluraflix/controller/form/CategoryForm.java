@@ -6,7 +6,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
-import br.com.alura.aluraflix.modelo.Category;
+import br.com.alura.aluraflix.model.Category;
+import br.com.alura.aluraflix.repository.CategoryRepository;
 
 public class CategoryForm {
 
@@ -33,5 +34,13 @@ public class CategoryForm {
 		return color;
 	}
 	
+	public Category update(Long id, CategoryRepository categoryRepository) {
+		Category category = categoryRepository.getOne(id);
+		category.setTitle(this.title);
+		category.setColor(this.color);
+		return category;
+		
+		
+	}
 	
 }

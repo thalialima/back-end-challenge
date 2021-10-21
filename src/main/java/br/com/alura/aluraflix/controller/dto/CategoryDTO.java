@@ -3,7 +3,7 @@ package br.com.alura.aluraflix.controller.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.alura.aluraflix.modelo.Category;
+import br.com.alura.aluraflix.model.Category;
 
 public class CategoryDTO {
 
