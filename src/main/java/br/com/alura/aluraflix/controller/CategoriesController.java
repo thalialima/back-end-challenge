@@ -7,6 +7,9 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import br.com.alura.aluraflix.controller.dto.VideoDTO;
+import br.com.alura.aluraflix.model.Video;
+import br.com.alura.aluraflix.repository.VideoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,6 +34,9 @@ public class CategoriesController {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
+	@Autowired
+	private VideoRepository videoRepository;
+
 	@GetMapping("/")
 	public List<CategoryDTO> showCategories() {
 		List<Category> categories = categoryRepository.findAll();
@@ -46,6 +52,22 @@ public class CategoriesController {
 			return ResponseEntity.notFound().build();
 
 		return ResponseEntity.ok().body(new CategoryDTO(optional.get()));
+	}
+
+	//requisição GET para exibir vídeos por categoria
+	//i have no idea how to do this.
+	@GetMapping("/{id}/videos/")
+	public ResponseEntity<List<VideoDTO>> detailsByCategory(@PathVariable("id") Long id) {
+		Optional<Category> optional = categoryRepository.findById(id);
+
+		// fail fast
+		if (!optional.isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+
+		List<Video> videosByCategory = videoRepository.findByCategoryId(id);
+		List<VideoDTO> videos = VideoDTO.toVideosDTO(videosByCategory);
+		return ResponseEntity.ok().body(videos);
 	}
 
 	@PostMapping
@@ -70,7 +92,7 @@ public class CategoriesController {
 		if (!optional.isPresent())
 			return ResponseEntity.notFound().build();
 
-		Category category =categoryForm.update(id, categoryRepository);
+		Category category = categoryForm.update(id, categoryRepository);
 		return ResponseEntity.ok().body(new CategoryDTO(category));
 	}
 	

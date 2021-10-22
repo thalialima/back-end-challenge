@@ -54,6 +54,17 @@ public class VideosController {
 		return ResponseEntity.ok(new VideoDTO(optional.get()));
 	}
 
+	@GetMapping("/search")
+	public ResponseEntity<VideoDTO> detailsByName(String name) {
+		Optional<Video> optional = videoRepository.findByName(name);
+
+		// fail fast
+		if (!optional.isPresent())
+			return ResponseEntity.notFound().build();
+
+		return ResponseEntity.ok(new VideoDTO(optional.get()));
+	}
+
 	@PostMapping
 	@Transactional
 	public ResponseEntity<VideoDTO> register(@RequestBody @Valid VideoForm form, UriComponentsBuilder urBuilder) {
@@ -72,7 +83,7 @@ public class VideosController {
 		Optional<Video> optional = videoRepository.findById(id);
 
 		if (optional.isPresent()) {
-			Video video = videoRepository.save(videoForm.update(id, videoRepository));
+			Video video = videoForm.update(id, videoRepository);
 			return ResponseEntity.ok(new VideoDTO(video));
 		}
 
