@@ -57,9 +57,17 @@ public class VideoForm {
     }
 
     public Video toVideo(CategoryRepository categoryRepository) {
-        Category category = categoryRepository.findByTitle(categoryTitle);
+        String title = verifyCategory(categoryTitle);
+        Category category = categoryRepository.findByTitle(title);
 		return new Video(this.name, this.description, this.url, category);
 	}
+
+    private String verifyCategory(String categoryTitle){
+        if (categoryTitle.isBlank() || categoryTitle == null)
+            return "LIVRE";
+
+        return categoryTitle;
+    }
 	
 	@SuppressWarnings("deprecation")
 	public Video update(Long id, VideoRepository videoRepository) {
