@@ -70,4 +70,7 @@ public class Video {
 		return category;
 	}
 
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 }

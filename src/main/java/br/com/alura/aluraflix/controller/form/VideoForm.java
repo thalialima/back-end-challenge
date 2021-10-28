@@ -70,11 +70,13 @@ public class VideoForm {
     }
 	
 	@SuppressWarnings("deprecation")
-	public Video update(Long id, VideoRepository videoRepository) {
+	public Video update(Long id, VideoRepository videoRepository, CategoryRepository categoryRepository) {
 		Video video = videoRepository.getOne(id);
+        Category category = categoryRepository.findByTitle(this.categoryTitle);
 		video.setName(this.name);
 		video.setDescription(this.description);
 		video.setUrl(this.url);
+        video.setCategory(category);
 		return video;
 	}
 

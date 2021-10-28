@@ -83,7 +83,7 @@ public class VideosController {
 		Optional<Video> optional = videoRepository.findById(id);
 
 		if (optional.isPresent()) {
-			Video video = videoForm.update(id, videoRepository);
+			Video video = videoForm.update(id, videoRepository, categoryRepository);
 			return ResponseEntity.ok(new VideoDTO(video));
 		}
 
