@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.alura.aluraflix.model.Category;
+import org.springframework.data.domain.Page;
 
 public class CategoryDTO {
 
@@ -47,5 +48,9 @@ public class CategoryDTO {
 		List<CategoryDTO> categoriesDTO = new ArrayList<CategoryDTO>();
 		categories.forEach(c -> categoriesDTO.add(new CategoryDTO(c)));
 		return categoriesDTO;
+	}
+
+	public static Page<CategoryDTO> toCategoriesDTOPage(Page<Category> categories) {
+		return categories.map(CategoryDTO::new);
 	}
 }

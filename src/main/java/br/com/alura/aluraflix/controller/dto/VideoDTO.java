@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.com.alura.aluraflix.model.Category;
 import br.com.alura.aluraflix.model.Video;
+import org.springframework.data.domain.Page;
 
 public class VideoDTO {
 	private Long id;
@@ -50,5 +51,9 @@ public class VideoDTO {
 		List<VideoDTO> videosDTO = new ArrayList<VideoDTO>();
 		videos.forEach(v -> videosDTO.add(new VideoDTO(v)));
 		return videosDTO;
+	}
+
+	public static Page<VideoDTO> toVideosDTOPage(Page<Video> videos) {
+		return videos.map(VideoDTO::new);
 	}
 }
