@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -57,6 +58,16 @@ public class VideosController {
 			return ResponseEntity.notFound().build();
 
 		return ResponseEntity.ok(new VideoDTO(optional.get()));
+	}
+
+	@GetMapping("/free")
+	public Page<VideoDTO> freeRequest(){
+		Sort sort = Sort.by("id").descending();
+		PageRequest pageRequest = PageRequest.of(0 ,5, sort);
+
+		Page<Video> videos = videoRepository.findAll(pageRequest);
+
+		return VideoDTO.toVideosDTOPage(videos);
 	}
 
 	@PostMapping
