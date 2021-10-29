@@ -36,6 +36,10 @@ public class User implements UserDetails {
         return this.profiles;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     @Override
     public String getPassword() {
         return this.password;
